@@ -82,8 +82,8 @@ def part1(file_name)->str:
 print("part 1")
 # 2=-1=0 (4890)
 print(part1('example.txt'))
-# ?
-# print(part1('input.txt'))
+# 2-0-01==0-1=2212=100
+print(part1('input.txt'))
 
 # print("part 2")
 # ?
