@@ -44,6 +44,9 @@ def part1(file_name):
 
     return exposed_faces
 
+def find_exterior_droplets(droplets):
+    return set()
+
 """
 Something seems off about your calculation. The cooling rate depends on exterior surface area, but your calculation also included the surface area of air pockets trapped in the lava droplet.
 
@@ -54,13 +57,16 @@ In the larger example above, exactly one cube of air is trapped within the lava 
 def part2(file_name):
     droplets = set(read_droplets(file_name))
 
+    exterior_spots = find_exterior_droplets(droplets)
+
     print(droplets)
+    print(exterior_spots)
 
     exposed_faces = 0
     for d in droplets:
         ef = 0
         for n in generate_neighbors(d):
-            if n not in droplets:
+            if n in exterior_spots:
                 ef += 1
         exposed_faces += ef
 
@@ -81,9 +87,9 @@ def part2(file_name):
 
 print("part 1")
 # 64
-print(part1('example.txt'))
-# 3564
-print(part1('input.txt'))
+# print(part1('example.txt'))
+# # 3564
+# print(part1('input.txt'))
 
 print("part 2")
 # 58
