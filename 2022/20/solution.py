@@ -114,7 +114,7 @@ test_rotate()
 print("part 1")
 # 4,-3,2 -> 3
 print(part1('example.txt'))
-# -77, -8178, -7203 -> -15458
+# -77, -8178, -7203 -> -15458 (wrong)
 print(part1('input.txt'))
 
 # print("part 2")
