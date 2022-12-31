@@ -25,5 +25,5 @@
 | 21  | 1     | Part 2 not started |
 | 22  | 1     | Part 2 not started |
 | 23  | 2     | Solved             |
-| 24  | 0     | Part 1 working     |
+| 24  | 0     | Part 1 wrong       |
 | 25  | 1     | Part 2 not started |

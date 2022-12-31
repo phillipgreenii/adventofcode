@@ -239,7 +239,7 @@ print("part 1")
 # print(part1('simple-example.txt'))
 # 18
 # print(part1('example.txt'))
-# ?
+# 217 (too low)
 print(part1('input.txt'))
 
 # print("part 2")
