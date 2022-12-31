@@ -21,7 +21,7 @@
 | 17  | 1     | Part 2 not started |
 | 18  | 1     | Part 2 not started |
 | 19  | 0     | Part 1 not working |
-| 20  | 0     | Part 1 not working |
+| 20  | 0     | Part 1 working     |
 | 21  | 1     | Part 2 not started |
 | 22  | 0     | Part 1 working     |
 | 23  | 0     | Part 1 working     |
