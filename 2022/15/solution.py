@@ -154,7 +154,7 @@ def part1(file_name,y_to_check):
 print("part 1")
 # 24
 print(part1('example.txt',10))
-# 838
+# 4408546 (wrong)
 print(part1('input.txt',2000000))
 
 # print("part 2")

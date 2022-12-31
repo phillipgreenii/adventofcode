@@ -16,7 +16,7 @@
 | 12  | 2     | Solved             |
 | 13  | 2     | Solved             |
 | 14  | 2     | Solved             |
-| 15  | 0     | Part 1 not working |
+| 15  | 0     | Part 1 wrong       |
 | 16  | 1     | Part 2 not started |
 | 17  | 1     | Part 2 not started |
 | 18  | 1     | Part 2 not started |
