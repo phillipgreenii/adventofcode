@@ -139,17 +139,22 @@ def part1(file_name):
     print_elves(elves)
     return count_empty_tiles(elves)
      
-# def part2(file_name):
-#     paths = list(read_rock_paths(file_name))
-#     cave = build_cave(paths, True)
-#     grains_dropped = 0
-#     while cave.drop_sand():
-#         grains_dropped += 1
-#     # for _ in range(94):
-#     #     cave.drop_sand()
-#     # print(cave)
+def part2(file_name):
+    elves = read_elves(file_name)
+    # print(elves)
+    print_elves(elves)
 
-#     return grains_dropped
+    counter = 0
+    while True:
+        p_elves = elves
+        elves = walk_elves(elves,counter)
+        counter+=1
+        if elves == p_elves:
+            break
+        # print(i)
+        # print_elves(elves)
+    print_elves(elves)
+    return counter
 
 print("part 1")
 # 25
@@ -159,8 +164,8 @@ print(part1('example.txt'))
 # 3966
 print(part1('input.txt'))
 
-# print("part 2")
-# # ?
-# print(part2('example.txt'))
-# # ?
-# print(part2('input.txt'))
+print("part 2")
+# 20
+print(part2('example.txt'))
+# 933
+print(part2('input.txt'))
