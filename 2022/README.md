@@ -19,7 +19,7 @@
 | 15  | 0     | Part 1 wrong       |
 | 16  | 1     | Part 2 not started |
 | 17  | 1     | Part 2 not started |
-| 18  | 1     | Part 2 not started |
+| 18  | 1     | Part 2 working     |
 | 19  | 0     | Part 1 not working |
 | 20  | 0     | Part 1 wrong       |
 | 21  | 1     | Part 2 not started |

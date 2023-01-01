@@ -45,7 +45,57 @@ def part1(file_name):
     return exposed_faces
 
 def find_exterior_droplets(droplets):
-    return set()
+    min_x = float('inf')
+    min_y = float('inf')
+    min_z = float('inf')
+    max_x = float('-inf')
+    max_y = float('-inf')
+    max_z = float('-inf')
+    for d in droplets:
+        min_x = min(min_x,d.x)
+        max_x = max(max_x,d.x)
+        min_y = min(min_y,d.y)
+        max_y = max(max_y,d.y)
+        min_z = min(min_z,d.z)
+        max_z = max(max_z,d.z)
+    # print(min_x)
+    # print(max_x)
+    # print(min_y)
+    # print(max_y)
+    # print(min_z)
+    # print(max_z)
+    exterior_droplets = set()
+    # print(f"Total Volume: {(max_x-min_x+1)*(max_y-min_y+1)*(max_z-min_z+1)}")
+
+    q = [
+        LavaDroplet(max_x+1,max_y+1,max_z+1),
+        LavaDroplet(max_x+1,max_y+1,min_z-1),
+        LavaDroplet(max_x+1,min_y-1,max_z+1),
+        LavaDroplet(min_x-1,max_y+1,max_z+1),
+        LavaDroplet(min_x-1,min_y-1,max_z+1),
+        LavaDroplet(max_x+1,min_y-1,min_z-1),
+        LavaDroplet(min_x-1,max_y+1,min_z-1),
+        LavaDroplet(min_x-1,min_y-1,min_z-1)
+        ]
+    while q:
+        d = q.pop()
+        # print(d)
+        if d in exterior_droplets:
+            # print('in ed')
+            continue
+        if d in droplets:
+            # print('in d')
+            continue
+        exterior_droplets.add(d)
+        for n in generate_neighbors(d):
+            if ((min_x-1 <= n.x <= max_x+1) and \
+                (min_y-1 <= n.y <= max_y+1) and \
+                (min_z-1 <= n.z <= max_z+1)) and \
+                n not in droplets:
+               q.append(n)
+
+
+    return exterior_droplets
 
 """
 Something seems off about your calculation. The cooling rate depends on exterior surface area, but your calculation also included the surface area of air pockets trapped in the lava droplet.
@@ -59,8 +109,9 @@ def part2(file_name):
 
     exterior_spots = find_exterior_droplets(droplets)
 
-    print(droplets)
-    print(exterior_spots)
+    # print(f"drops:{len(droplets)}; exdrops:{len(exterior_spots)}")
+    # print(droplets)
+    # print(exterior_spots)
 
     exposed_faces = 0
     for d in droplets:
@@ -72,27 +123,15 @@ def part2(file_name):
 
 
     return exposed_faces
-    
-# def part2(file_name):
-#     paths = list(read_rock_paths(file_name))
-#     cave = build_cave(paths, True)
-#     grains_dropped = 0
-#     while cave.drop_sand():
-#         grains_dropped += 1
-#     # for _ in range(94):
-#     #     cave.drop_sand()
-#     # print(cave)
-
-#     return grains_dropped
 
 print("part 1")
 # 64
-# print(part1('example.txt'))
-# # 3564
-# print(part1('input.txt'))
+print(part1('example.txt'))
+# 3564
+print(part1('input.txt'))
 
 print("part 2")
 # 58
 print(part2('example.txt'))
-# # 23958
-# print(part2('input.txt'))
+# 2106
+print(part2('input.txt'))
