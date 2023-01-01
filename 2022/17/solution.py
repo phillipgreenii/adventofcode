@@ -49,6 +49,7 @@ class Chamber:
         self.starting_left_gap = starting_left_gap
         self.starting_bottom_gap = starting_bottom_gap
         self.grid = []
+        self.lines_removed = 0
 
     def _next_shape(self) -> Shape:
         return next(self.rock_shape_generator)
@@ -78,6 +79,9 @@ class Chamber:
                     return False
         return True
 
+    def total_height(self):
+        return self.height + self.lines_removed
+
     def __apply_rock_to_grid(self, grid:List[List[str]],rock:'Rock', symbol_override:str=None):
         for i in range(rock.shape.height):
             r = rock.position.r + i
@@ -102,6 +106,19 @@ class Chamber:
             if cell_rock in self.grid[r]:
                 self.height = r + 1
                 break
+
+    def _remove_coverred_lines(self) -> None:
+        lowest_relevant_height = self.height
+        for c in range(self.width):
+            for r in range(self.height-1,0-1,-1):
+                if self.grid[r][c] == '#':
+                    lowest_relevant_height = min(lowest_relevant_height,r)
+                    break
+        if lowest_relevant_height > 0:
+            # print(f"removing {lowest_relevant_height}")
+            self.grid = self.grid[lowest_relevant_height:]
+            self.lines_removed += lowest_relevant_height
+            self.height -= lowest_relevant_height
 
     def drop_rock(self) -> None:
         # print(f"height:{self.height}")
@@ -129,6 +146,7 @@ class Chamber:
             if not make_move('v'):
                 done = True
         self._apply_rock(rock)
+        self._remove_coverred_lines()
 
     def _dump_to_str(self,moving_rock=None):
         if moving_rock:
@@ -142,14 +160,16 @@ class Chamber:
         # for r in range(self.height):
         for r in range(len(g)-1,-1,-1):
             lines.append('|' + ''.join(g[r]) + '|')
-        lines.append('+' + ('-'*self.width) + '+')
+        if self.lines_removed == 0:
+            lines.append('+' + ('-'*self.width) + '+')
+        else:
+            lines.append('|' + '⋮'.center(self.width) + '|')
+            lines.append('|' + str(self.lines_removed).center(self.width) + '|')
+        
         return '\n'.join(lines)
-
 
     def __repr__(self) -> str:
         return self._dump_to_str()
-
-
 
 class Rock:
     def __init__(self,chamber:Chamber,shape:Shape,position:Position):
@@ -224,7 +244,8 @@ def simulate_rock_drops(shapes_file_name, jet_pattern_file_name, drops):
         chamber.drop_rock()
         # print(f"{i+1}:{chamber.height}")
         # print(chamber)
-    return chamber.height
+    # print(str(chamber))
+    return chamber.total_height()
 
 def part1(shapes_file_name, jet_pattern_file_name, drops):
     return simulate_rock_drops(shapes_file_name,jet_pattern_file_name,drops)
@@ -249,6 +270,6 @@ print(part1('shapes.txt', 'input.txt',2022))
 
 print("part 2")
 # 1514285714288
-# print(part2('shapes.txt', 'example.txt',1_000_000_000_000))
+# print(part2('shapes.txt', 'example.txt',1_000_000))
 # # ?
 # print(part2('shapes.txt', 'input.txt',1_000_000_000_000))
