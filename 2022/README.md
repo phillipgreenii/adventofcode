@@ -22,7 +22,7 @@
 | 18  | 2     | Solved             |
 | 19  | 0     | Part 1 not working |
 | 20  | 0     | Part 1 wrong       |
-| 21  | 1     | Part 2 working     |
+| 21  | 2     | Solved             |
 | 22  | 1     | Part 2 not started |
 | 23  | 2     | Solved             |
 | 24  | 0     | Part 1 wrong       |

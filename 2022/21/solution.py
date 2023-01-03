@@ -107,16 +107,38 @@ operator_opposite = {
     '/':'*'
 }
 
+# x + 3 = 7 => x = 7 - 3
+
+# x / 3 = 7 => x = 7 * 3
+# x * 3 = 7 => x = 7 / 3
+
+# 3 - x = 7 => x = -(7 - 3)
+# 3 - (2 * x) = 7 => - (2 * x) = 7 - 3
+
 def unwrap_operation(unknown:Node, value:Node)->Tuple[Node,Node]:
     if isinstance(unknown,UnknownValueNode):
         return unknown,value
+    inverse = operator_opposite[unknown.operation]
     if isinstance(unknown.node1,ValueNode):
         v=unknown.node1
         op=unknown.node2
+
+        # '-' is not cumlative, so need to re-org equations
+        # 4 - x = v
+        # =>
+        # x = 4 - v
+        if unknown.operation == '-':
+            return op,OperationNode('-',v,value)
+        # NOTE: similar logic should exist for / as well, but since we are doing int math, 
+        # 1/x would always be 0 so the problem won't do this
     else:
         v=unknown.node2
         op=unknown.node1
-    return op,OperationNode(operator_opposite[unknown.operation],value,v)
+    # print(f"{unknown.operation}=>{operator_opposite[unknown.operation]}")
+    new_v = OperationNode(inverse,value,v)
+    # if negate_value:
+    #     new_v = OperationNode('*',ValueNode(-1),new_v)
+    return op,new_v
 
 def solve_for_unknown(tree:Node)->Node:
     if tree.operation != '=':
@@ -128,9 +150,24 @@ def solve_for_unknown(tree:Node)->Node:
         value = tree.node2
         unknown = tree.node1
     while not isinstance(unknown,UnknownValueNode):
+        # print('solving')
+        # print_tree(unknown)
+        # print_tree(value)
         unknown, value = unwrap_operation(unknown, value)
     value = reduce_tree(value)
     return value
+
+def node2str(node:Node)->str:
+    if isinstance(node,ValueNode):
+        return str(node.value)
+    if isinstance(node,UnknownValueNode):
+        return str(node.name)
+    
+    return f"({node2str(node.node1)}{node.operation}{node2str(node.node2)})"
+
+
+def print_tree(tree:Node)->None:
+    print(node2str(tree))
 
 """
 Due to some kind of monkey-elephant-human mistranslation, you seem to have misunderstood a few key details about the riddle.
@@ -156,11 +193,11 @@ def part2(file_name):
     # print(tree.node2)
     tree = reduce_tree(tree)
     # print("reduced tree")
-    # print(tree.node1)
-    # print(tree.node2)
+    # print_tree(tree.node1)
+    # print_tree(tree.node2)
     tree = solve_for_unknown(tree)
     # print("solved tree")
-    # print(tree)
+    # print_tree(tree)
     return tree.value
 
 print("part 1")
@@ -172,5 +209,5 @@ print(part1('input.txt'))
 print("part 2")
 # 301
 print(part2('example.txt'))
-# 9879574614298
+# 3373767893067
 print(part2('input.txt'))
