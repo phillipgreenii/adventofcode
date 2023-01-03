@@ -91,6 +91,13 @@ def parse_grid(lines:Iterator[str])->Grid:
     
     # create grid
     grid = Grid(width, height, tiles)
+        
+    # for tile in grid.tiles.values():
+    #     print(tile)
+
+    return grid
+
+def wrap_torus(grid:Grid)->Grid:
     
     # link tiles
     for tile in grid.tiles.values():
@@ -160,13 +167,7 @@ def parse_grid(lines:Iterator[str])->Grid:
                 if p_t and p_t.symbol == '.':
                     tile.right= p_t
                     p_t.left = tile
-
-        
-    # for tile in grid.tiles.values():
-    #     print(tile)
-
     return grid
-
 
 class Direction(NamedTuple):
     value:int
@@ -275,6 +276,7 @@ def score_state(state:State)->int:
 
 def part1(file_name):
     grid,instructions, initial_state = read_initial_state(file_name)
+    grid = wrap_torus(grid)
     print_grid(grid)
     print(instructions)
     print(initial_state)
@@ -282,6 +284,11 @@ def part1(file_name):
     print_grid(grid, path)
 
     return score_state(final_state)
+
+def wrap_cube(grid:Grid)->Grid:
+    
+    # FIXME implement
+    return grid
 
 """
 As you reach the force field, you think you hear some Elves in the distance. Perhaps they've already arrived?
@@ -352,6 +359,7 @@ Fold the map into a cube, then follow the path given in the monkeys' notes. What
 """
 def part2(file_name):
     grid,instructions, initial_state = read_initial_state(file_name)
+    grid = wrap_cube(grid)
     print_grid(grid)
     print(instructions)
     print(initial_state)
@@ -362,9 +370,9 @@ def part2(file_name):
 
 print("part 1")
 # 6032
-print(part1('example.txt'))
+# print(part1('example.txt'))
 # 43466
-print(part1('input.txt'))
+# print(part1('input.txt'))
 
 print("part 2")
 # 5031
