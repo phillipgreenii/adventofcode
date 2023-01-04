@@ -41,11 +41,12 @@ class Grid:
         for sensor,beacon in pairs:
             vals[sensor] = 'S'
             vals[beacon] = 'B'
-            min_x = min(min_x,sensor.x,beacon.x)
-            max_x = max(max_x,sensor.x,beacon.x)
-            min_y = min(min_y,sensor.y,beacon.y)
-            max_y = max(max_y,sensor.y,beacon.y)
-            distances[sensor] = distance(sensor,beacon)
+            d = distance(sensor,beacon)
+            min_x = min(min_x,sensor.x-d,beacon.x)
+            max_x = max(max_x,sensor.x+d,beacon.x)
+            min_y = min(min_y,sensor.y-d,beacon.y)
+            max_y = max(max_y,sensor.y+d,beacon.y)
+            distances[sensor] = d
 
         self.values = vals
         self.distances = distances
@@ -58,7 +59,7 @@ class Grid:
 
     def near_pair(self,p):
         for sensor,limit in self.distances.items():
-        # for sensor,limit in [(Point(8,7),9)]:
+        # for sensor,limit in [(Point(8,7),self.distances[Point(8,7)])]:
             d = distance(sensor,p)
             if d <= limit:
                 return True
@@ -122,6 +123,8 @@ class Grid:
 def part1(file_name,y_to_check):
     pairs = list(read_pairs(file_name))
     grid = Grid(pairs)
+    # grid.print()
+    # grid.print((-15,30,-15,30))
     # grid.print((-2,25,-2,22))
     # grid.print((-4,26,9,11))
     beacon_not_present = 0
@@ -154,7 +157,7 @@ def part1(file_name,y_to_check):
 print("part 1")
 # 24
 print(part1('example.txt',10))
-# 4408546 (wrong)
+# 4424278
 print(part1('input.txt',2000000))
 
 # print("part 2")
