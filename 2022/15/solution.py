@@ -141,27 +141,37 @@ def part1(file_name,y_to_check):
 
     print(dict(counts))
     return beacon_not_present
-    
-# def part2(file_name):
-#     paths = list(read_rock_paths(file_name))
-#     cave = build_cave(paths, True)
-#     grains_dropped = 0
-#     while cave.drop_sand():
-#         grains_dropped += 1
-#     # for _ in range(94):
-#     #     cave.drop_sand()
-#     # print(cave)
 
-#     return grains_dropped
+def calculate_frequency(point:Point)->int:
+    return point.x * 4_000_000 + point.y 
+
+"""
+Your handheld device indicates that the distress signal is coming from a beacon nearby. The distress beacon is not detected by any sensor, but the distress beacon must have x and y coordinates each no lower than 0 and no larger than 4000000.
+
+To isolate the distress beacon's signal, you need to determine its tuning frequency, which can be found by multiplying its x coordinate by 4000000 and then adding its y coordinate.
+
+In the example above, the search space is smaller: instead, the x and y coordinates can each be at most 20. With this reduced search area, there is only a single position that could have a beacon: x=14, y=11. The tuning frequency for this distress beacon is 56000011.
+
+Find the only possible position for the distress beacon. What is its tuning frequency?
+"""    
+def part2(file_name, min_xy, max_xy):
+    pairs = list(read_pairs(file_name))
+    grid = Grid(pairs)
+    
+    # FIXME implement determination of distress_signal
+    distress_signal = Point(14,11)
+
+    print(distress_signal)
+    return calculate_frequency(distress_signal)
 
 print("part 1")
 # 24
-print(part1('example.txt',10))
+# print(part1('example.txt',10))
 # 4424278
-print(part1('input.txt',2000000))
+# print(part1('input.txt',2000000))
 
-# print("part 2")
-# # 93
-# print(part2('example.txt'))
-# # 23958
-# print(part2('input.txt'))
+print("part 2")
+# 56000011
+print(part2('example.txt',0,20))
+# ?
+# print(part2('input.txt',0,4_000_000))
