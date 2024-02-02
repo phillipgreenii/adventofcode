@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. ../support/verify-support.sh
+
+verify
+failures="$?"
+exit $failures

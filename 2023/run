@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+. ../support/run-support.sh
+
+cmd_fn() {
+  d="${1}"
+  p="${2}"
+
+  day=$(printf "%02d" $d)
+  echo "lein run d${day}.p${p}"
+}
+
+inputs_dir_fn() {
+  d="${1}"
+  p="${2}"
+
+  day=$(printf "%02d" $d)
+  echo "resources/day${day}"
+}
+
+run "cmd_fn" "inputs_dir_fn"

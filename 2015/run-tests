@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+. ../support/run-tests-support.sh
+
+run_all_tests() {
+    exec go test ./...
+}
+
+run_day_tests() {
+    d="${1}"
+    exec go test $(printf "./internal/day%02d/..." $d)
+}
+
+run_day_pattern_tests() {
+    d="${1}"
+    pattern="${2}"
+    exec go test $(printf "./internal/day%02d/..." $d) -run $pattern
+}
+
+run-tests "run_all_tests" "run_day_tests" "run_day_pattern_tests"

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+. ../support/run-tests-support.sh
+
+run_all_tests() {
+    exec python -m unittest
+}
+
+run_day_tests() {
+    d="${1}"
+    exec python -m unittest $(printf "day%02d.tests" $d)
+}
+
+run_day_pattern_tests() {
+    d="${1}"
+    pattern="${2}"
+    exec python -m unittest $(printf "day%02d.tests.Tests.%s" $d $pattern)
+}
+
+run-tests "run_all_tests" "run_day_tests" "run_day_pattern_tests"

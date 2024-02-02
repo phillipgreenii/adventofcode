@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+. ../support/update-status-support.sh
+
+update-status "internal/day%02d/inputs"

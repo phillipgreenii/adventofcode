@@ -1,0 +1,9 @@
+# All `*.private.txt` files should be encrypted
+#  as request at https://adventofcode.com/2023/about:
+# > If you're posting a code repository somewhere, 
+# > please don't include parts of Advent of Code 
+# > like the puzzle text or your inputs
+**/*.private.txt filter=git-crypt diff=git-crypt
+
+# Never encrypt this file
+.gitattributes !filter !diff

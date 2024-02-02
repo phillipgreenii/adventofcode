@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+. ../support/start-shell-support.sh
+
+start-shell "aoc-2022"

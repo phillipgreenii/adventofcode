@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+usage="""
+Usage: verify-all [\$year]
+"""
+
+if [[ "$#" -eq 0 ]]; then
+    year=""
+elif [[ "$#" -eq 1 ]]; then
+    year="${1}"
+else
+	echo "${usage}"
+    exit 1
+fi
+
+no_file_output="-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --"
+
+verify_year() {
+    year="${1}"
+    if [[ ! -d "${year}" ]]; then
+      echo "${year} ${no_file_output}"
+      return 0
+    fi
+
+    pushd "${year}" >/dev/null
+
+    echo -n "${year} "
+
+    # FIXME remove these next lines, only here for testing
+    #echo "-- %- -- -- -- -- -- -- -% -- -- -- -- -- -- %- -- -- -- -- -- -- -- -- --"
+    #failures=$(( $RANDOM % 10 ))
+
+    # TODO no header
+    # TODO this needs to use profile
+    result=$(nix develop -c ./verify)
+    failures="$?"
+    echo $result | tail -n 1
+
+    popd > /dev/null
+
+    return $failures
+}
+
+total_failures=0
+for y in {2023..2015}
+do
+verify_year $y
+((total_failures=total_failures+$?))
+done
+
+# return total failures, but cap at 255 because that is exit code limit
+if [[ "$total_failures" -gt 255 ]]; then
+ exit 255
+fi
+
+exit $total_failures

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+. ../support/run-tests-support.sh
+
+run_all_tests() {
+    exec lein test
+}
+
+run_day_tests() {
+    d="${1}"
+    exec lein test :only $(printf "advent-of-code.day-%02d-test" $d)
+}
+
+run_day_pattern_tests() {
+    d="${1}"
+    pattern="${2}"
+    exec lein test :only $(printf "advent-of-code.day-%02d-test/%s" $d $pattern)
+}
+
+run-tests "run_all_tests" "run_day_tests" "run_day_pattern_tests"

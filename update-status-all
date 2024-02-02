@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+PROJ_ROOT="$(cd "$(dirname "$0")" && pwd)"
+
+WORK_DIR=`mktemp -d --suffix upst`
+function cleanup {      
+  rm -rf "$WORK_DIR"
+}
+trap cleanup EXIT
+
+# | Year           | Stars |
+# |:---------------|------:|
+# | [2023](./2023) |    32 |
+# | [2022](./2022) |    39 |
+# | [2021](./2021) |     0 |
+# | [2020](./2020) |     0 |
+# | [2019](./2019) |     0 |
+# | [2018](./2018) |     0 |
+# | [2017](./2017) |     0 |
+# | [2016](./2016) |     0 |
+# | [2015](./2015) |    11 |
+
+_generate_status_header() {
+
+cat <<EOF
+| Year           | Stars |
+|:---------------|------:|
+EOF
+
+}
+
+_generate_year_status() {
+  year=${1}
+  stars=${2}
+
+  year_link="[$year](./$year)"
+  # | [2015](./2015) |    11 |
+  printf '| %14s | %5s |\n' "$year_link" "$stars"
+}
+
+generate_status_table() {
+_generate_status_header
+first_year=2015
+last_year=2023
+
+for year in {2023..2015}
+do 
+
+  d="${PROJ_ROOT}/$year"
+  if [[ -d "$d" ]]; then
+    stars=$(find $d -type f -size +0 -name "part?-answer.private.txt" | wc -l)
+  
+    pushd $d > /dev/null
+    if [[ -f update-status ]]; then
+      ./update-status >&2
+    fi
+    popd > /dev/null
+  
+  else
+   stars=0
+  fi
+
+  _generate_year_status $year $stars
+
+done
+
+}
+
+readme="${PROJ_ROOT}/README.md"
+
+s=$(grep -n -m 1 STATUS_TABLE_START ${readme} |sed  's/\([0-9]*\).*/\1/')
+e=$(grep -n -m 1 STATUS_TABLE_END ${readme} |sed  's/\([0-9]*\).*/\1/')
+
+if [[ "$s" -eq "" || "$e" -eq "" ]]; then
+echo "STATUS_TABLE_START comment or STATUS_TABLE_END comment not found"  >&2
+exit 2
+fi
+
+tmp_readme="${WORK_DIR}/README.md.tmp"
+(
+head -n $s ${readme}
+generate_status_table 
+tail -n +$e ${readme}
+) > ${tmp_readme}
+cat ${tmp_readme} > ${readme}

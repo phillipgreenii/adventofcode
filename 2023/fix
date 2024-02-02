@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+
+#### TODO
+# add day to day.go
+# generate test files
+# make flake.nix work (and start-shell; probably need to find go plugins)
+
+day_dir_pattern="resources/%s"
+inputs_dir_pattern="inputs"
+
+for d in {1..25}
+do
+day=$(printf "day%02d" $d)
+mkdir -p resources/${day}
+pushd "resources/${day}" > /dev/null
+
+  touch input.private.txt
+  touch part1-example.private.txt
+  touch part1-answer.private.txt
+  touch part1-question.private.txt
+  touch part2-example.private.txt
+  touch part2-answer.private.txt
+  touch part2-question.private.txt
+
+# daydash=$(printf "day-%02d" $d)
+
+# if [[ -f "${daydash}-part1-example.txt" ]]; then
+#   mv "${daydash}-part1-example.txt" "${day}/part1-example.private.txt"
+# fi
+# if [[ -f "${daydash}-part2-example.txt" ]]; then
+#   mv "${daydash}-part2-example.txt" "${day}/part2-example.private.txt"
+# fi
+# if [[ -f "${daydash}-example.txt" ]]; then
+#   mv "${daydash}-example.txt" "${day}/example.private.txt"
+# fi
+# if [[ -f "${daydash}.txt" ]]; then
+#   mv "${daydash}.txt" "${day}/input.private.txt"
+# fi
+
+popd > /dev/null
+done
+
+# for d in {1..25}
+# do
+#   day=$(printf "day%02d" $d)
+#   echo "$day"
+#   day_dir=$(printf $day_dir_pattern $day)
+#   inputs_dir=$(printf $inputs_dir_pattern)
+
+#   mkdir -p "${day_dir}" 
+#   pushd "${day_dir}" > /dev/null
+
+#   mkdir -p ${inputs_dir}
+
+#   # if [[ -f "inputs/day-input.txt" ]]; then
+#   #   mv "inputs/day-input.txt" "inputs/input.private.txt"
+#   # fi
+
+#   touch ${inputs_dir}/input.private.txt
+#   touch ${inputs_dir}/part1-example.private.txt
+#   touch ${inputs_dir}/part1-answer.private.txt
+#   touch ${inputs_dir}/part1-question.private.txt
+#   touch ${inputs_dir}/part2-example.private.txt
+#   touch ${inputs_dir}/part2-answer.private.txt
+#   touch ${inputs_dir}/part2-question.private.txt
+
+# cat<<EOF > day.go
+# package $day
+
+# import "github.com/phillipgreenii/adventofcode/2015/internal/common"
+
+# var Day = $d
+
+# var Solvers = [2]common.Solver{
+# 	Part1,
+# 	Part2,
+# }
+# EOF
+
+# # cat<<EOF > part1.go
+# # package $day
+
+# # import (
+# #   "github.com/phillipgreenii/adventofcode/2015/internal/common"
+# # )
+
+# # func Part1(input common.Input) string {
+# # 	return "PART1 NOT IMPLEMENTED"
+# # }
+# # EOF
+
+
+# # cat<<EOF > part2.go
+# # package $day
+
+# # import (
+# #   "github.com/phillipgreenii/adventofcode/2015/internal/common"
+# # )
+
+# # func Part2(input common.Input) string {
+# # 	return "PART2 NOT IMPLEMENTED"
+# # }
+# # EOF
+
+# cat<<EOF > part1_test.go
+# package $day
+
+# import (
+# 	"testing"
+
+# 	"github.com/phillipgreenii/adventofcode/2015/internal/common"
+# )
+
+# func TestPart1(t *testing.T) {
+
+# 	t.Run("part 1", func(t *testing.T) {
+# 		var expected = "PART1-EXAMPLE-EXPECTED"
+
+# 		input, err := common.LoadFile(Day, "part1-example")
+
+# 		if err != nil {
+# 			t.Fatalf("unable to load example: %v", err)
+# 		}
+# 		result := Part1(input)
+# 		if result != expected {
+# 			t.Fatalf("got %s, expected %s", result, expected)
+# 		}
+# 	})
+
+# }
+# EOF
+
+
+# cat<<EOF > part2_test.go
+# package $day
+
+# import (
+# 	"testing"
+
+# 	"github.com/phillipgreenii/adventofcode/2015/internal/common"
+# )
+
+# func TestPart2(t *testing.T) {
+
+# 	t.Run("part 2", func(t *testing.T) {
+# 		var expected = "PART2-EXAMPLE-EXPECTED"
+
+# 		input, err := common.LoadFile(Day, "part2-example")
+
+# 		if err != nil {
+# 			t.Fatalf("unable to load example: %v", err)
+# 		}
+# 		result := Part2(input)
+# 		if result != expected {
+# 			t.Fatalf("got %s, expected %s", result, expected)
+# 		}
+# 	})
+
+# }
+# EOF
+
+
+#   # done
+#   popd > /dev/null
+
+# done 

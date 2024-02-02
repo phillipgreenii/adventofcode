@@ -1,0 +1,28 @@
+target/
+classes/
+checkouts/
+profiles.clj
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+.lein-*
+.nrepl-port
+.hgignore
+.hg/
+.tool-versions
+.clj-kondo/
+.lsp/
+
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs
+verify.log
